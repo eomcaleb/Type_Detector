@@ -1,6 +1,6 @@
 # Type_Detector #
 #### Detects typing and notifies to all users ####
-![Interface Image](/img/demonstration.PNG)
+![Interface Image](/img/demonstration.gif)
 
 ## Setup ##
 Note: this is an add-on to the existing project that demonstrates a simple chatroom. More information on: http://socket.io/get-started/chat/
