@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Type Alert Example</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px "Sans Serif", Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: black; color: white; border: none; font-size: 10px; }
+      
+	  #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #BBBBBB; }
+	  
+	  
+	  /* Chrome, Safari, Opera */
+	  @-webkit-keyframes example {
+		0%   {background-color: #BBBBBB;}
+		25%  {background-color: #AAAAAA;}
+		50%  {background-color: #999999;}
+		75%  {background-color: #AAAAAA;}
+		100% {background-color: #BBBBBB;}
+	  }
+
+	  /* Standard syntax */
+	  @keyframes example {
+		0%   {background-color: #555555;}
+		25%  {background-color: #353535;}
+		50%  {background-color: #454545;}
+		75%  {background-color: #353535;}
+		100% {background-color: #555555;}
+	  }
+	  #status { color: white; text-align: center; background: #303030; font-size: 15px; 
+				animation-name: example; animation-duration: 2s; animation-iteration-count: infinite;}
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+	  <div id="status"></div>
+      <input id="msg" autocomplete="off" /><button>Send</button>
+    </form>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+	  var socket = io();
+	  var notified = false;
+	  
+	  $('form').submit(function(){
+		socket.emit('chat message', $('#msg').val());
+		$('#msg').val('');
+		return false;
+	  });
+	  
+	  var searchTimeout;
+	  
+	  $('#msg').on('keyup', function(event) {
+		if (document.getElementById('msg').value != "" && !notified){
+			socket.emit('untyped', 'true');
+			notified = true;
+		}	
+		else if (document.getElementById('msg').value == "" && notified){
+			socket.emit('untyped', 'false');
+			notified = false;
+		} 
+	  });
+	  
+	  socket.on('chat message', function(msg){
+		$('#messages').append($('<li>').text(msg));
+	  });
+	  
+	  socket.on('type alert', function(status){
+		if (status == "true")
+		{
+			document.getElementById('status').innerHTML = "(username) typing...";
+		}
+		else
+		{
+			document.getElementById('status').innerHTML = "";		
+		}
+	  });
+	  
+	  
+	</script>
+  </body>
+</html>
