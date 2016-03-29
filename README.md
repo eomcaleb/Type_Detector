@@ -32,24 +32,32 @@ The function below will receive a socket object 'true' or 'false' that listens f
 ## Client Side Magic Code (JQuery) ##
 The function below detects every keyboard change and checks the logic to see if the user is typing or not.
 
-Logic: 
-
-if (message field is not empty and server is not notified) notify server typing.
-
-
-else if (message field is empty and server is notified of typing) notify server not typing.
-
 
   $('#msg').on('keyup', function(event) {
+  
 	if (document.getElementById('msg').value != "" && !notified){
+	
 		socket.emit('untyped', 'true');
+		
 		notified = true;
+		
 	}	
 	else if (document.getElementById('msg').value == "" && notified){
+	
 		socket.emit('untyped', 'false');
+		
 		notified = false;
+		
 	} 
+	
   });
+  
+Logic: 
+
+* if message field is not empty and server is not notified notify server typing.
+* else if message field is empty and server is notified of typing notify server not typing.
+
+
 
 ## Customization/ ##
 more features to come...
