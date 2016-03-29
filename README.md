@@ -6,23 +6,17 @@
 Note: this is an add-on to the existing project that demonstrates a simple chatroom. More information on: http://socket.io/get-started/chat/
 
 Pre-installation required (installation guide: http://socket.io/get-started/chat/):
-
 1. Express
-
 2. Socket.io
 
 
 Open up a command prompt in the current directory (./Type_Detector) and run the following command:
+> node index.js
 
-node index.js
 
-
-Folder Structure
-
+###Folder Structure###
 index.html - Client side page
-
 index.js - Server side script
-
 package.json - manifest file for this project
 
 
