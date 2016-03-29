@@ -13,7 +13,6 @@ Pre-installation required (installation guide: http://socket.io/get-started/chat
 Open up a command prompt in the current directory (./Type_Detector) and run the following command:
 * node index.js
 
-
 ###Folder Structure###
 * index.html - Client side page
 * index.js - Server side script
@@ -22,6 +21,35 @@ Open up a command prompt in the current directory (./Type_Detector) and run the 
 
 ## Languages / Syntax ##
 * CSS, HTML, Javascript, JQuery, JSON, Socket.io
+
+## Server Side Magic Code ##
+The function below will receive a socket object 'true' or 'false' that listens for the socket on 'untyped'. It will then emit to all users the status (true of false).
+
+  socket.on('untyped', function(status){
+    io.emit('type alert', status);
+  });
+
+## Client Side Magic Code (JQuery) ##
+The function below detects every keyboard change and checks the logic to see if the user is typing or not.
+
+Logic: 
+
+if (message field is not empty and server is not notified) notify server typing.
+
+
+else if (message field is empty and server is notified of typing) notify server not typing.
+
+
+  $('#msg').on('keyup', function(event) {
+	if (document.getElementById('msg').value != "" && !notified){
+		socket.emit('untyped', 'true');
+		notified = true;
+	}	
+	else if (document.getElementById('msg').value == "" && notified){
+		socket.emit('untyped', 'false');
+		notified = false;
+	} 
+  });
 
 ## Customization/ ##
 more features to come...
